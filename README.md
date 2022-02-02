@@ -10,16 +10,11 @@ James Harris     jgharris1
 Noah Williams    noah-williams
 
 ## Languages & techniques
-
-HTML
-
-CSS
-
-PHP
-
-Javascript
-
-Python
+- HTML
+- CSS
+- PHP
+- Javascript
+- Python
 
 ## Description
 
