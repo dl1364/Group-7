@@ -20,3 +20,16 @@ PHP
 Javascript
 
 Python
+
+• Description
+
+A rudimentary social media platform
+
+• Objective & features
+
+A few of the planned feature are
+ 
+ - Logging in to an account
+ - test
+ - test
+ - test
