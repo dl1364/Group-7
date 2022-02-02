@@ -1,5 +1,5 @@
 # Group-7
-• Members
+## Members
 
 Deven Lee       dl1364
 
@@ -9,7 +9,7 @@ James Harris     jgharris1
 
 Noah Williams    noah-williams
 
-• Languages & techniques
+## Languages & techniques
 
 HTML
 
@@ -21,11 +21,11 @@ Javascript
 
 Python
 
-• Description
+## Description
 
 A rudimentary social media platform
 
-• Objective & features
+## Objective & features
 
 A few of the planned feature are
  
