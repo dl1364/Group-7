@@ -20,7 +20,7 @@ Noah Williams    @noah-williams
 
 A rudimentary social media platform
 
-## Objective & features
+## Objectives & features
 
 A few of the planned feature include
  
