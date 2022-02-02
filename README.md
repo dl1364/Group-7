@@ -17,6 +17,6 @@ CSS
 
 PHP
 
-JAVASCRIPT
+Javascript
 
-PYTHON
+Python
