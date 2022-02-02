@@ -11,4 +11,12 @@ Noah Williams    noah-williams
 
 • Languages & techniques
 
-TBD
+HTML
+
+CSS
+
+PHP
+
+JAVASCRIPT
+
+PYTHON
