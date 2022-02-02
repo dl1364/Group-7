@@ -1,7 +1,7 @@
 # Group-7
 ## Members
 
-Deven Lee       dl1364
+Deven Lee        dl1364
 
 Joshua cotton    Joshua5437
 
@@ -22,9 +22,9 @@ A rudimentary social media platform
 
 ## Objective & features
 
-A few of the planned feature are
+A few of the planned feature include
  
  - Logging in to an account
- - test
- - test
- - test
+ - Post to and edit his/her timeline
+ - Friend requests
+ - Like, comment and share other's posts
