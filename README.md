@@ -7,6 +7,6 @@ James Harris     jgharris1
 
 Noah Williams    noah-williams
 
-Languages & techniques
+•Languages & techniques
 
 TBD
