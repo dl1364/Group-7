@@ -28,3 +28,5 @@ A few of the planned feature include
  - Post to and edit his/her timeline
  - Friend requests
  - Like, comment and share other's posts
+
+THIS IS A TEST LINE
