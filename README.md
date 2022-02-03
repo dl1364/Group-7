@@ -30,3 +30,13 @@ A few of the planned feature include
  - Like, comment and share other's posts
 
 THIS IS A TEST LINE
+
+I
+
+AM
+
+ADDING
+
+MORE
+
+TEST LINES
