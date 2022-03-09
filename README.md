@@ -3,7 +3,7 @@
 
 Deven Lee        @dl1364
 
-Joshua cotton    @Joshua5437
+Joshua Cotton    @Joshua5437
 
 James Harris     @jgharris1
 
