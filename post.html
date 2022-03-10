@@ -1,0 +1,211 @@
+
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'userpage/style.css' %}">
+<script src="{% static 'userpage/pagescript.js' %}"></script>
+<div id="nav" class="row">
+	<div id="search" class="col2">
+		<form action="{% url 'search' %}" method="post">
+		{% csrf_token %}
+			<input type="text" placeholder="User Search.." name="search"/>
+			<input type="submit" value="go" />
+		</form>
+	</div>
+	<div id="account" class="col2">
+		<div class="dropdown"><button class="dropbtn">{{ user.user_name }}</button>
+			<div class="dropdown-content">
+				<a href="http://127.0.0.1:8000/userpage">(signin/out)</a> 
+				<a href="http://127.0.0.1:8000/userpage/{{ user.id }}/">(acc page)</a> 
+				<a href="#">(acc settings)</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="content" class="row">
+	<div id="stream">
+		<div class="exppost">
+			<div class="post_content" id="post{{ post.id }}"><textarea id="post_content_box" rows="5" name="post_content_box" placeholder="Say something interesting..." readonly>{{ post.post_text }}</textarea></div>
+			<div class="edit_box" id="edit{{ post.id }}" hidden>
+				<form action="{% url 'edit' post.id %}" method="post">
+				{% csrf_token %}
+					<div class="edit">
+						<input hidden type="text" value="1" name="edit">
+						<textarea class="edit_input" maxlength="256" name="text_input" rows="5" placeholder="Say something interesting...">{{ post.post_text }}</textarea>
+						<br>
+						<input type="submit" value="submit changes" />
+					</div>
+				</form>
+			</div>
+			<div class="post_action_bar">
+				<div class="poster_id">
+					<form action="{% url 'search' %}" method="post">
+					{% csrf_token %}
+						<input hidden type="text" name="search" value="{{post.user.user_name}}"/>
+						<input type="submit" value="{{post.user.user_name}}" />
+					</form>
+				</div>
+				<div class="post_like"><form action="{% url 'like' post.id %}" method="post">{% csrf_token %}<input hidden type="text" value="1" name="like"><input type="submit" value="like {{ post.like_set.count }}" /></form></div>
+				<div class="post_comment"><form action="{% url 'comment_page' post.id %}" method="post">{% csrf_token %}<input hidden type="text" value="1" name="comment"><input type="submit" value="comment" /></form></div>
+				{% if user.id != post.user.id %}
+					<div class="post_share"><form action="{% url 'share' post.src %}" method="post">{% csrf_token %}<input hidden type="text" value="{{ post.user.id }}" name="share"><input type="submit" value="share" /></form></div>
+				{% endif %}
+				{% if user.id == post.user.id %}
+					<div class="post_edit"><input type="submit" value="edit" onclick="edit_fun({{ post.id }}, 0)" /></div>
+					<div class="del_post"><form action="{% url 'delete' post.id %}" method="post">{% csrf_token %}<input hidden type="text" value="1" name="del"><input type="submit" value="del" /></form></div>
+				{% endif %}
+			</div>
+		</div>
+		<br>
+		<hr>
+		{% for comment in post.comment_set.all %}
+    			<div class="exppost">
+				<div class="post_content" id="postp{{ comment.id }}"><textarea id="post_content_box" rows="5" name="post_content_box" placeholder="Say something interesting..." readonly>{{ comment.comment_text }}</textarea></div>
+				<div class="edit_box" id="editp{{ comment.id }}" hidden>
+					<form action="{% url 'edit' comment.id %}" method="post">
+					{% csrf_token %}
+						<div class="edit">
+							<input hidden type="text" value="2" name="edit">
+							<textarea class="edit_input" maxlength="256" name="text_input" rows="4" placeholder="Say something interesting...">{{ comment.comment_text }}</textarea>
+							<br>
+							<input type="submit" value="submit changes" />
+						</div>
+					</form>
+				</div>
+				<div class="post_action_bar">
+					<div class="poster_id">
+						<form action="{% url 'search' %}" method="post">
+						{% csrf_token %}
+							<input hidden type="text" name="search" value="{{comment.user.user_name}}"/>
+							<input type="submit" value="{{comment.user.user_name}}" />
+						</form>
+					</div>
+					<div class="post_like"><form action="{% url 'like' comment.id %}" method="post">{% csrf_token %}<input hidden type="text" value="2" name="like"><input type="submit" value="like {{ comment.like_set.count }}" /></form></div>
+					{% if comment.user.id == user.id %}
+						<div class="post_edit"><input type="submit" value="edit" onclick="edit_fun({{ comment.id }}, 1)" /></div>
+						<div class="del_post"><form action="{% url 'delete' comment.id %}" method="post">{% csrf_token %}<input hidden type="text" value="2" name="del"><input type="submit" value="del" /></form></div>
+					{% endif %}
+				</div>
+			</div>
+			<br />
+		{% endfor %}
+		<form action="{% url 'comment_post' post.id %}" method="post">
+		{% csrf_token %}
+			<div id="newpost">
+				<textarea id="text_input" maxlength="256" name="text_input" rows="4" placeholder="Say something interesting..."></textarea>
+				<br>
+				<input hidden type="text" value="{{ user.id }}" name="poster">
+				<div id="counter">0/256</div>
+				<input type="submit" value="post" />
+			</div>
+		</form>
+	</div>
+	<div id="friends">
+		<div id="page_name">
+			<a href="http://127.0.0.1:8000/userpage/{{ page.id }}/"><h1>{{ page.user_name }}</h1></a>
+			{% if user.id != page.id %}
+				<form action="{% url 'friend' page.id %}" method="post">
+				{% csrf_token %}
+					<input type="submit" value="{% if friendstat == "False" %}friend{% else %}unfriend{% endif %}" />
+				</form>
+			{% endif %}		
+		</div>
+		<div id="friends_send_acc">
+			{% for friend in friend_send %}
+				<div class="friend">
+					<a href="http://127.0.0.1:8000/userpage/{{ friend.receiver.id }}/">{{ friend.receiver.user_name }}</a>
+					<div class="row">
+						{% if page.id == user.id %}
+							<div class="col2 left-button">
+								<form action="{% url 'friend' friend.receiver.id %}" method="post">
+								{% csrf_token %}
+									<input hidden type="text" value="0" name="friend">
+									<input type="submit" value="unfriend" />
+								</form>
+							</div>
+						{% endif %}
+						{% if friend.receiver.id != user.id %}
+							<div class="col2 {% if page.id == user.id %}right-button{% endif %}">
+								<form action="{% url 'mesg' friend.receiver.id %}" method="post">
+								{% csrf_token %}
+									<input type="submit" value="message" />
+								</form>
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+		<div id="friends_get_acc">
+			{% for friend in friend_get %}
+				<div class="friend">
+					<a href="http://127.0.0.1:8000/userpage/{{ friend.sender.id }}/">{{ friend.sender.user_name }}</a>
+					<div class="row">
+						{% if page.id == user.id %}
+							<div class="col2 left-button">
+								<form action="{% url 'friend' friend.sender.id %}" method="post">
+								{% csrf_token %}
+									<input hidden type="text" value="0" name="friend">
+									<input type="submit" value="unfriend" />
+								</form>
+							</div>
+						{% endif %}
+						{% if friend.receiver.id != user.id %}
+							<div class="col2 {% if page.id == user.id %}right-button{% endif %}">
+								<form action="{% url 'mesg' friend.sender.id %}" method="post">
+								{% csrf_token %}
+									<input type="submit" value="message" />
+								</form>
+							</div>
+						{% endif %}
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+		{% if page.id == user.id %}
+			<hr>
+			<h4>Pending Requests:</h4>
+			<div id="friends_send">
+				{% for friend in friend_request_get %}
+					<div class="friend">
+						<a href="http://127.0.0.1:8000/userpage/{{ friend.sender.id }}/">{{ friend.sender.user_name }}</a>
+						<div class="row">
+							<div class="col2 left-button">
+								<form action="{% url 'friend' friend.sender.id %}" method="post">
+								{% csrf_token %}
+									<input hidden type="text" value="0" name="friend">
+									<input type="submit" value="accept" />
+								</form>
+							</div>
+							<div class="col2 right-button">
+								<form action="{% url 'friend' friend.sender.id %}" method="post">
+								{% csrf_token %}
+									<input hidden type="text" value="1" name="friend">
+									<input type="submit" value="deny" />
+								</form>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+			<div id="friends_get">
+				{% for friend in friend_request_send %}
+					<div class="friend">
+						<a href="http://127.0.0.1:8000/userpage/{{ friend.receiver.id }}/">{{ friend.receiver.user_name }}</a>
+						<div class="row">
+							<div class="col2">
+								<form action="{% url 'friend' friend.receiver.id %}" method="post">
+								{% csrf_token %}
+									<input hidden type="text" value="0" name="friend">
+									<input type="submit" value="cancel request" />
+								</form>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		{% endif %}
+	</div>
+</div>
+<div id="sitedat">sitedata(links to read-mes and such)</div>
+
+
