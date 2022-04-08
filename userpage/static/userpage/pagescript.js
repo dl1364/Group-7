@@ -15,6 +15,25 @@ function HelloWorld()
 	location.innerHTML = newstr;
 }
 
+function message(user1, user2)
+{
+	var roomName = user1 + "__" + user2;
+	window.location.pathname = '/chat/' + roomName + '/';
+}
+
+function pass_chng()
+{
+	var boxloc = document.getElementById("chng_pass");
+	if(boxloc.style.display === "none")
+	{
+		boxloc.style.display = "block";
+	}
+	else
+	{
+		boxloc.style.display = "none";
+	}
+}
+
 function edit_fun(id, method)
 {
 	if(method === 0)
