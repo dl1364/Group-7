@@ -1,15 +1,48 @@
+{% load static %}
+<a href="https://codepen-api-export-production.s3.us-west-2.amazonaws.com/zip/PEN/pyBNzX/1578778289271/pure-css-gradient-background-animation.zip" class="btn btn-outline-light" aria-current="page"></a>
+<script src="{% static 'userpage/pagescript.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'userpage/style.css' %}">
+<p class="title">KOOBECAF</p>
+<div class="login_box" id="post1" {% if start == "signup" %}style="display: none;"{% endif %}>
+	<h3 class="marg_z">Login</h3><br>
+	<form action="{% url 'signin' %}" method="post">
+	{% csrf_token %}
+		<h4 class="marg_z">Username</h4><input type="text" placeholder="Username ..." name="username"/><br>
+		<h4 class="marg_z">Password</h4><input type="text" placeholder="Password ..." name="password"/><br>
+		<input type="submit" value="login" />
+	</form>
+	{% if error == "acct_miss" %}
+		<p class="errormsg">Entered account does not exist</p>
+	{% endif %}
+	{% if error == "pass_fail" %}
+		<p class="errormsg">Entered password is incorrect</p>
+	{% endif %}
+	{% if error == "user_name_miss" %}
+		<p class="errormsg">No username entered</p>
+	{% endif %}
+	<p class="or"><span>or</span></p>
+	<p>Need an account? <input type="submit" value="SIGN UP" onclick="edit_fun(1, 0)" /></p>
 
+</div>
 
-<form action="{% url 'signin' %}" method="post">
-{% csrf_token %}
-	<input type="text" placeholder="Username ..." name="username"/><br>
-	<input type="text" placeholder="Password ..." name="password"/><br>
-	<input type="submit" value="login" />
-</form>
-
-<form action="{% url 'newacc' %}" method="post">
-{% csrf_token %}
-	<input type="text" placeholder="new account" name="newname"/><br>
-	<input type="text" placeholder="new password" name="newpass"/><br>
-	<input type="submit" value="create" />
-</form>
+<div class="login_box" id="edit1" {% if start == "login" %}style="display: none;"{% endif %}>
+	<h3 class="marg_z">Sign Up</h3><br>
+	<form action="{% url 'newacc' %}" method="post">
+	{% csrf_token %}
+		<h4 class="marg_z">Username</h4><input type="text" placeholder="new account" name="newname"/><br>
+		<h4 class="marg_z">Password</h4><input type="text" placeholder="new password" name="newpass"/><br>
+		<h4 class="marg_z">Confirm Password</h4><input type="text" placeholder="confirm new password" name="newpassconf"/><br>
+		<input type="submit" value="create" />
+	</form>
+	{% if error == "prev_acc" %}
+		<p class="errormsg">entered account name is taken</p>
+	{% endif %}
+	{% if error == "pass_match" %}
+		<p class="errormsg">entered passwords do not match</p>
+	{% endif %}
+	{% if error == "blank_signup" %}
+		<p class="errormsg">No name entered</p>
+	{% endif %}
+	<p class="or"><span>or</span></p>
+	<p>Already a user? <input type="submit" value="LOGIN" onclick="edit_fun(1, 0)" /></p>
+</div>

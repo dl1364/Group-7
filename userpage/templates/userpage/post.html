@@ -1,8 +1,9 @@
 
 {% load static %}
-
+<a href="https://codepen-api-export-production.s3.us-west-2.amazonaws.com/zip/PEN/pyBNzX/1578778289271/pure-css-gradient-background-animation.zip" class="btn btn-outline-light" aria-current="page"></a>
 <link rel="stylesheet" type="text/css" href="{% static 'userpage/style.css' %}">
 <script src="{% static 'userpage/pagescript.js' %}"></script>
+<div class="background">
 <div id="nav" class="row">
 	<div id="search" class="col2">
 		<form action="{% url 'search' %}" method="post">
@@ -12,11 +13,19 @@
 		</form>
 	</div>
 	<div id="account" class="col2">
-		<div class="dropdown"><button class="dropbtn">{{ user.user_name }}</button>
+		<div class="dropdown"><button class="dropbtn">
+			{% if user != 1 %}
+				{{ user.user_name }}
+			{% else %}
+				signed-out
+			{% endif %}
+		</button>
 			<div class="dropdown-content">
 				<a href="http://127.0.0.1:8000/userpage">(signin/out)</a> 
-				<a href="http://127.0.0.1:8000/userpage/{{ user.id }}/">(acc page)</a> 
-				<a href="#">(acc settings)</a>
+				{% if user != 1 %}
+					<a href="http://127.0.0.1:8000/userpage/{{ user.id }}/">(acc page)</a> 
+					<a onclick="pass_chng()">(change password)</a>
+				{% endif %}
 			</div>
 		</div>
 	</div>
@@ -123,13 +132,12 @@
 								</form>
 							</div>
 						{% endif %}
-						{% if friend.receiver.id != user.id %}
-							<div class="col2 {% if page.id == user.id %}right-button{% endif %}">
-								<form action="{% url 'mesg' friend.receiver.id %}" method="post">
-								{% csrf_token %}
-									<input type="submit" value="message" />
-								</form>
-							</div>
+						{% if page.id == user.id %}
+							{% if friend.receiver.id != user.id %}
+								<div class="col2 {% if page.id == user.id %}right-button{% endif %}">
+									<div class="mesg"><input type="submit" class="mesg" value="Message" onclick="message('{{ friend.receiver.user_name }}', '{{ friend.sender.user_name}}')" /></div>
+								</div>
+							{% endif %}
 						{% endif %}
 					</div>
 				</div>
@@ -149,13 +157,12 @@
 								</form>
 							</div>
 						{% endif %}
-						{% if friend.receiver.id != user.id %}
-							<div class="col2 {% if page.id == user.id %}right-button{% endif %}">
-								<form action="{% url 'mesg' friend.sender.id %}" method="post">
-								{% csrf_token %}
-									<input type="submit" value="message" />
-								</form>
-							</div>
+						{% if page.id == user.id %}
+							{% if friend.sender.id != user.id %}
+								<div class="col2 {% if page.id == user.id %}right-button{% endif %}">
+									<div class="mesg"><input type="submit" class="mesg" value="Message" onclick="message('{{ friend.receiver.user_name }}', '{{ friend.sender.user_name}}')" /></div>
+								</div>
+							{% endif %}
 						{% endif %}
 					</div>
 				</div>
@@ -207,5 +214,26 @@
 	</div>
 </div>
 <div id="sitedat">sitedata(links to read-mes and such)</div>
-
+<div id="chng_pass" style="display: none;">
+	<div class="login_box" {% if start == "login" %}hidden{% endif %}>
+		<h3 class="marg_z">Sign Up</h3><br>
+		<form action="{% url 'chng_pass' %}" method="post">
+		{% csrf_token %}
+			<h4 class="marg_z">Username</h4><input type="text" placeholder="old password" name="oldpass"/><br>
+			<h4 class="marg_z">Password</h4><input type="text" placeholder="new password" name="newpass"/><br>
+			<h4 class="marg_z">Confirm Password</h4><input type="text" placeholder="confirm new password" name="newpassconf"/><br>
+			<input type="submit" value="Change" />
+		</form>
+		{% if error == "prev_acc" %}
+			<p class="errormsg">entered account name is taken</p>
+		{% endif %}
+		{% if error == "pass_match" %}
+			<p class="errormsg">entered passwords do not match</p>
+		{% endif %}
+		{% if error == "blank_signup" %}
+			<p class="errormsg">No name entered</p>
+		{% endif %}
+	</div>
+</div>
+</div>
 

@@ -1,3 +1,23 @@
+body 
+{
+	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+	background-size: 400% 400%;
+	animation: gradient 60s ease infinite;
+	height: 100vh;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
 div
 {
 	text-align:center;
@@ -102,6 +122,7 @@ div
 
 #text_input, .edit_input, #post_content_box
 {
+	background-color: white;
 	width: 96%;
 }
 
@@ -110,10 +131,66 @@ div
 	height: 18px;
 }
 
-#stream, #nav, #sitedat, .exppost, #newpost, .edit, #friends, .friend
+.marg_z
+{
+	margin-top: 0px;	
+	margin-bottom: 0px;
+	text-align:left;
+}
+
+.title
+{
+	font-size: 60px;
+	text-align: center;
+	font-family: classic-roman;
+}
+
+.errormsg
+{
+	color:red;
+}
+
+#stream, #nav, #sitedat, .exppost, #newpost, .edit, #friends, .friend, .login_box
 {
 	border-collapse: collapse;
-	border-color:black;
+	border-color:#e06b31;
   	border-width:1px;
   	border-style:solid;
+}
+
+.login_box
+{
+	padding: 10;
+	margin: auto;
+	background: #b8e2f2;
+	border-color: black;
+	width: 200px;
+	border-radius: 6px;
+}
+
+.or
+{
+   width: 100%; 
+   text-align: center; 
+   border-bottom: 1px solid #000; 
+   line-height: 0.1em;
+   margin: 10px 0 20px; 
+} 
+
+.background
+{
+	background-color: #b8e2f2;
+}
+
+.or span 
+{ 
+    background:#b8e2f2; 
+    padding:0 10px; 
+}
+
+#chng_pass
+{
+	position: absolute;
+	top:30px;
+	left:45%;
 }
