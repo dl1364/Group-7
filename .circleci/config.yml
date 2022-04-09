@@ -50,7 +50,7 @@ jobs:
           command: source Env/bin/activate
             python3 manage.py test
       - store_test_results:
-            path: Env/bin/activate/test-results
+            path: tests
   
  
 # Invoke jobs via workflows
