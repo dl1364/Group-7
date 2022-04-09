@@ -32,19 +32,19 @@ urlpatterns = [
 
 	# ex: /userpage/post/#/
 	path('post/<int:post_id>/', views.comment_page, name='comment_page'),
-    
+
 	# ex: /userpage/post/#/share
 	path('post/<int:post_id>/share/', views.share, name='share'),
-    
+
 	# ex: /userpage/post/#/like
 	path('post/<int:post_id>/like/', views.like, name='like'),
 
 	# ex: /userpage/post/#/comment/
 	path('post/<int:post_id>/comment/', views.comment_post, name='comment_post'),
-    
+
 	# ex: /userpage/post/#/del/
 	path('post/<int:post_id>/del/', views.delete, name='delete'),
 
-	# ex: /userpage/post/#/edit    
+	# ex: /userpage/post/#/edit
 	path('post/<int:post_id>/edit/', views.edit, name='edit'),
 ]
