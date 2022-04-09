@@ -6,10 +6,10 @@ import json
 
 class TestViews(TestCase):
 
-    def test_newacc(self):
+    def test_index_GET(self):
         client = Client()
 
         response = client.get(reverse('list'))
 
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, 'userpage/')
+        self.assertTemplateUsed(response, 'userpage/index.html')
