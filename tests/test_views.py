@@ -14,7 +14,7 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'userpage/index.html')
 
-    def test_index_GET(self):
+    def test_userpage_GET(self):
         client = Client()
 
         response = client.get(reverse('list'))
@@ -22,7 +22,7 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'userpage.html')
 
-    def test_index_GET(self):
+    def test_admin_GET(self):
         client = Client()
 
         response = client.get(reverse('list'))
@@ -30,7 +30,7 @@ class TestViews(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'admin.html')
 
-    def test_index_GET(self):
+    def test_post_GET(self):
         client = Client()
 
         response = client.get(reverse('list'))
