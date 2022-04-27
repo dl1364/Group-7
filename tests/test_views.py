@@ -13,3 +13,11 @@ class TestViews(TestCase):
 
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, 'userpage/index.html')
+
+    def test_index_GET(self):
+        client = Client()
+
+        response = client.get(reverse('list'))
+
+        self.assertEquals(response.status_code, 200)
+        self.assertTemplateUsed(response, 'userpage.html')
