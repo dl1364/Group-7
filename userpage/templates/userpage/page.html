@@ -24,7 +24,7 @@
 				<a href="http://127.0.0.1:8000/userpage">(signin/out)</a> 
 				{% if user != 1 %}
 					<a href="http://127.0.0.1:8000/userpage/{{ user.id }}/">(acc page)</a> 
-					<a onclick="pass_chng()">(change password)</a>
+					<a onclick="pass_chng()">(change account data)</a>
 				{% endif %}
 			</div>
 		</div>
@@ -82,11 +82,83 @@
 					</div>
 				</form>
 			{% endif %}
+			<div id="navigation" class="row navrow">
+				<div class="nav">
+					<form action="{% url 'page_num' page.id 1 %}" method="post">
+					{% csrf_token %}
+						<input type="submit" value="1" {% if page_num == 1 %}style="background-color: E6E6FA;"{% endif %}>
+					</form>
+				</div>
+				{% if 2 < page_num_prev %}
+					<div class="nav">
+						<p class="nav">. . .</p>
+					</div>
+				{% endif %}
+				{% if max_page != 1 %}
+					{% if page_num_prev >= 2 %}
+						<div class="nav">
+							<form action="{% url 'page_num' page.id page_num_prev %}" method="post">
+							{% csrf_token %}
+								<input type="submit" value="{{ page_num_prev }}">
+							</form>
+						</div>
+					{% endif %}
+				{% endif %}
+				{% if max_page != 2 %}
+					{% if page_num != 1 %}
+						{% if page_num != max_page %}
+							<div class="nav">
+								<form action="{% url 'page_num' page.id page_num %}" method="post">
+								{% csrf_token %}
+									<input type="submit" value="{{ page_num }}" {% if page_num != max_page %}{% if page_num != 1 %}style="background-color: E6E6FA;"{% endif %}{% endif %}>
+								</form>
+							</div>
+						{% endif %}
+					{% endif %}
+				{% endif %}
+				{% if max_page >= 2 %}
+					{% if page_num_post < max_page %}
+						<div class="nav">
+							<form action="{% url 'page_num' page.id page_num_post %}" method="post">
+							{% csrf_token %}
+								<input type="submit" value="{{ page_num_post }}">
+							</form>
+						</div>
+					{% endif %}
+				{% endif %}
+				{% if max_page_prev > page_num_post %}
+					<div class="nav">
+						<p class="nav">. . .</p>
+					</div>
+				{% endif %}
+				{% if max_page != 1 %}
+					<div class="nav">
+						<form action="{% url 'page_num' page.id max_page %}" method="post">
+						{% csrf_token %}
+							<input type="submit" value="{{ max_page }}" {% if page_num == max_page %}style="background-color: E6E6FA;"{% endif %}>
+						</form>
+					</div>
+				{% endif %}
+			</div>
+			<br>
+			<div class="item_count">
+				<form action="{% url 'chng_size' user.id %}" method="post">
+				{% csrf_token %}
+					Items per page:
+					<input type="number" id="size" name="size" min="1" max="50" value="{{ user.list_size }}">
+					<input type="submit" value="change">
+				</form>
+			</div>
 		</div>
 	</div>
 	<div id="friends">
 		<div id="page_name">
+			<img src="{{ page.img.url }}" width="150px" height="150px" style="border-radius:50%;">
 			<a href="http://127.0.0.1:8000/userpage/{{ page.id }}/"><h1>{{ page.user_name }}</h1></a>
+			email: {{ page.email }}<br>
+			phone: {{ page.phone }}<br>
+			birthday: {{ page.birthday }}<br>
+			gender: {{ page.gender }}<br>
 			{% if user.id != page.id %}
 				<form action="{% url 'friend' page.id %}" method="post">
 				{% csrf_token %}
@@ -193,12 +265,12 @@
 <div id="sitedat">sitedata(links to read-mes and such)</div>
 <div id="chng_pass" style="display: none;">
 	<div class="login_box" {% if start == "login" %}hidden{% endif %}>
-		<h3 class="marg_z">Sign Up</h3><br>
+		<h3 class="marg_z">Change Password</h3><br>
 		<form action="{% url 'chng_pass' %}" method="post">
 		{% csrf_token %}
-			<h4 class="marg_z">Username</h4><input type="text" placeholder="old password" name="oldpass"/><br>
-			<h4 class="marg_z">Password</h4><input type="text" placeholder="new password" name="newpass"/><br>
-			<h4 class="marg_z">Confirm Password</h4><input type="text" placeholder="confirm new password" name="newpassconf"/><br>
+			<h4 class="marg_z">Old Password</h4><input type="text" placeholder="old password" name="oldpass"/><br>
+			<h4 class="marg_z">New Password</h4><input type="text" placeholder="new password" name="newpass"/><br>
+			<h4 class="marg_z">Confirm New Password</h4><input type="text" placeholder="confirm new password" name="newpassconf"/><br>
 			<input type="submit" value="Change" />
 		</form>
 		{% if error == "prev_acc" %}
@@ -210,6 +282,12 @@
 		{% if error == "blank_signup" %}
 			<p class="errormsg">No name entered</p>
 		{% endif %}
+		<p class="or"><span>or</span></p>
+		<h3 class="marg_z">Change Account Data</h3><br>
+		<form action="{% url 'chng_img' user.pk %}" method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+  			<input type="submit" value="open">
+		</form>
 	</div>
 </div>
 </div>
